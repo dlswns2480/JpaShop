@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Embeddable
-@Getter @Setter
+@Getter
 public class Address {
 
     private String city;
