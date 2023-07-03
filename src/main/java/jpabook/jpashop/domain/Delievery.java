@@ -8,11 +8,11 @@ import org.aspectj.weaver.ast.Or;
 @Entity
 @Getter @Setter
 public class Delievery {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "delievery_id")
     private Long id;
 
-    @OneToOne(mappedBy = "delievery")
+    @OneToOne(mappedBy = "delievery", fetch = FetchType.LAZY)
     private Order order;
 
     @Embedded
