@@ -32,5 +32,17 @@ public class Order {
 
     private OrderStatus status; //Enum type으로 [ORDER, CANCEL]
 
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+    public void setDelivery(Delievery delivery) {
+        this.delievery = delivery;
+        delivery.setOrder(this);
+    }
 
 }
