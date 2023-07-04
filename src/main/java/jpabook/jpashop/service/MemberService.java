@@ -4,16 +4,19 @@ import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class MemberService {
 
     @Autowired
     private MemberRepository memberRepository;
 
     //회원가입
+    @Transactional
     public Long join(Member member){
         validateDuplicateMember(member); // 중복회원 검증
         memberRepository.save(member);
