@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringRunner.class) //JUnit 실행할때 스프링도 같이 엮어서 실행하고 싶을 때.
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
