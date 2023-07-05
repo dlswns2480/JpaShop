@@ -2,6 +2,7 @@ package jpabook.jpashop.service;
 
 import static org.junit.Assert.*;
 
+import jakarta.persistence.EntityManager;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.service.MemberService;
@@ -25,6 +26,8 @@ public class MemberServiceTest {
     private MemberRepository memberRepository;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private EntityManager em;
     @Test
     public void 회원가입(){
         Member member = new Member();
@@ -32,6 +35,21 @@ public class MemberServiceTest {
 
         Long saveId = memberService.join(member);
 
+        em.flush(); //원래는 Transactional로 인해 Rollback이 발생해 DB 쿼리를 날리지 않지만 쿼리를 보고싶을때 flush를 사용
         Assertions.assertEquals(member, memberRepository.findOne(saveId));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void 중복_회원_검증 (){
+        Member member1 = new Member();
+        Member member2 = new Member();
+
+        member1.setName("kim");
+        member2.setName("kim");
+
+        memberService.join(member1);
+        memberService.join(member2);
+
+        fail("예외가 발생해야 한다. 여기까지 내려오면 안된다.");
     }
 }
