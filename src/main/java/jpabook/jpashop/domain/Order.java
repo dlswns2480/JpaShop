@@ -45,4 +45,20 @@ public class Order {
         delivery.setOrder(this);
     }
 
+    //생성 메소드
+    public static Order createOrder(Member member, Delievery delievery, OrderItem... orderItems){
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelievery(delievery);
+        for (OrderItem orderItem:orderItems
+             ) {
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+
+
 }
