@@ -59,6 +59,16 @@ public class Order {
         return order;
     }
 
-
+    //비즈니스 로직
+    public void cancel(){
+        if(delievery.getStatus() == DelieveryStatus.COMP){
+            throw new IllegalStateException("이미 배송완료된 상품입니다.");
+        }
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem:orderItems
+             ) {
+            orderItem.cancel();
+        }
+    }
 
 }
