@@ -41,7 +41,7 @@ public class OrderServiceTest {
 
         Assert.assertEquals("상품 상태는 주문이어야 합니다", OrderStatus.ORDER, getOrder.getStatus());
         Assert.assertEquals("주문한 상품의 종류수가 정확해야 한다.", 1, getOrder.getOrderItems().size());
-        Assert.assertEquals("총 주문 가격은 가격 * 수량이다.", 10000 * orderCount, getOrder.getTotalPrice());
+        Assert.assertEquals("총 주문 가격은 가격 * 수량이다.", book.getPrice() * orderCount, getOrder.getTotalPrice());
         Assert.assertEquals("주문 수량만큼 재고가 줄어야한다.", 8, book.getStockQuantity());
     }
     @Test(expected = NotEnoughStockException.class)
@@ -49,13 +49,28 @@ public class OrderServiceTest {
         Member member = createMember();
         Item item = createBook("Jpa book", 10000, 10);
 
-        int orderCount = 11;
+        int orderCount = 12;
 
         orderService.order(member.getId(), item.getId(), orderCount);
 
 
         //이전에서 예외가 터져야함
         fail("여기까지 오면 안된다");
+    }
+    @Test
+    public void 주문취소() throws Exception{
+        Member member = createMember();
+        Book item = createBook("JPA book", 10000, 10);
+
+        int orderCount = 2;
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+        Order getOrder = orderRepository.findOne(orderId);
+
+        Assert.assertEquals("주문한만큼 재고가 줄어야한다.", 8, item.getStockQuantity());
+
+        orderService.cancel(orderId);
+        Assert.assertEquals("주문 취소시 재고가 원복 되어있어야한다.", 10, item.getStockQuantity());
+        Assert.assertEquals("주문상태는 CANCEL이어야한다.", OrderStatus.CANCEL, getOrder.getStatus());
     }
 
     private Book createBook(String name, int price, int stockQuantity) {
