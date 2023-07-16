@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 @Controller
@@ -49,7 +50,7 @@ public class ItemController {
     @GetMapping("items/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model){
         Book book = (Book) itemService.findOne(itemId);
-
+        System.out.println(itemId);
         BookForm form = new BookForm();
         form.setName(book.getName());
         form.setAuthor(book.getAuthor());
@@ -61,7 +62,7 @@ public class ItemController {
     }
 
     @PostMapping("items/{itemId}/edit")
-    public String updateItem(@PathVariable String itemId, @ModelAttribute("form") BookForm form){
+    public String updateItem(@ModelAttribute("form") BookForm form){
         Book book = new Book();
 
         book.setId(form.getId());
@@ -70,7 +71,7 @@ public class ItemController {
         book.setStockQuantity(form.getStockQuantity());
         book.setAuthor(form.getAuthor());
         book.setIsbn(form.getIsbn());
-
+        System.out.println(book.getId());
         itemService.saveItem(book);
         return "redirect:/items";
 

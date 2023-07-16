@@ -14,9 +14,11 @@ public class ItemRepository {
 
     public void save(Item item){
         if(item.getId() == null){
+            System.out.println("새로 주입돼씁니다.");
             em.persist(item);
         }
         else{
+            System.out.println("병합됐습니다.");
             em.merge(item);
         }
     }
