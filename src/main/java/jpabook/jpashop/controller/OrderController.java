@@ -39,7 +39,7 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/orders")// html에서 제출된 양식이 orderSearch에 바인딩 되도록함. 바인딩 된 orderSearch를 기반으로 주문을 찾아서 화면에 렌더링
     public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model){
         List<Order> orders = orderService.findOrders(orderSearch);
         model.addAttribute("orders", orders);
