@@ -23,7 +23,7 @@ public class MemberApiController {
     }
 
     @PostMapping("/api/v2/members")
-    public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateRequest request){
+    public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request){
         Member member = new Member();
 
         member.setName(request.getName());
@@ -33,12 +33,10 @@ public class MemberApiController {
     }
 
     @Data
-    static class CreateRequest{
+    static class CreateMemberRequest{
         String name;
 
-        public CreateRequest(String name) {
-            this.name = name;
-        }
+
     }
 
     @Data
