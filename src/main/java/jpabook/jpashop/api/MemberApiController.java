@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,6 +19,28 @@ public class MemberApiController {
     @GetMapping("api/v1/members")
     public List<Member> showMemberV1(){
         return memberService.findMembers();
+    }
+
+    @GetMapping("api/v2/members")
+    public Result showMemberV2(){
+        List<Member> members = memberService.findMembers();
+        List<MemberDto> collect = new ArrayList<>();
+        for(Member member : members){
+            collect.add(new MemberDto(member.getName()));
+        }
+        return new Result(collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T>{
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberDto{
+        private String name;
     }
 
     @PostMapping("/api/v1/members")
