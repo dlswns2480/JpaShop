@@ -1,17 +1,13 @@
 package jpabook.jpashop.api;
 
-import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderStatus;
+import jpabook.jpashop.dto.SimpleOrderDto;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
-import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +23,6 @@ public class OrderSimpleApiController {
         for(Order order : all){
             order.getMember().getName();
             order.getDelievery().getAddress();
-
         }
         return all;
     }
@@ -50,20 +45,6 @@ public class OrderSimpleApiController {
         }
         return collect;
     }
-    @Data
-    static class SimpleOrderDto{
-        private Long orderId;
-        private String name;
-        private LocalDateTime orderDate;
-        private OrderStatus orderStatus;
-        private Address address;
 
-        public SimpleOrderDto(Order order){
-            orderId = order.getId();
-            name = order.getMember().getName();
-            orderDate = order.getOrderDate();
-            orderStatus = order.getStatus();
-            address = order.getMember().getAddress();
-        }
-    }
+
 }
