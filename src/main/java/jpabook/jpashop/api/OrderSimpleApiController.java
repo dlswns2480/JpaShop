@@ -36,15 +36,15 @@ public class OrderSimpleApiController {
         }
         return collect;
     }
-    @GetMapping("/api/v3/simple-orders")
-    public List<SimpleOrderDto> orderV3(){
-        List<Order> orders = orderRepository.findAllWithMemberDelievery();
-        List<SimpleOrderDto> collect = new ArrayList<>();
-        for(Order order : orders){
-            collect.add(new SimpleOrderDto(order));
-        }
-        return collect;
-    }
+//    @GetMapping("/api/v3/simple-orders")
+//    public List<SimpleOrderDto> orderV3(){
+//        List<Order> orders = orderRepository.findAllWithMemberDelievery();
+//        List<SimpleOrderDto> collect = new ArrayList<>();
+//        for(Order order : orders){
+//            collect.add(new SimpleOrderDto(order));
+//        }
+//        return collect;
+//    }
 
 
 }
