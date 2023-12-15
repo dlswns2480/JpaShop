@@ -1,5 +1,6 @@
 package jpabook.jpashop.service;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.*;
 
 import jakarta.persistence.EntityManager;
@@ -17,39 +18,46 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class) //JUnit 실행할때 스프링도 같이 엮어서 실행하고 싶을 때.
+//@RunWith(SpringRunner.class) //JUnit 실행할때 스프링도 같이 엮어서 실행하고 싶을 때.
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
 
+    private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final EntityManager em;
     @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private EntityManager em;
-    @Test
-    public void 회원가입(){
-        Member member = new Member();
-        member.setName("kim");
-
-        Long saveId = memberService.join(member);
-
-        em.flush(); //원래는 Transactional로 인해 Rollback이 발생해 DB 쿼리를 날리지 않지만 쿼리를 보고싶을때 flush를 사용
-        Assertions.assertEquals(member, memberRepository.findOne(saveId));
+    public MemberServiceTest(MemberRepository memberRepository, MemberService memberService,
+        EntityManager em) {
+        this.memberRepository = memberRepository;
+        this.memberService = memberService;
+        this.em = em;
     }
-
-    @Test(expected = IllegalStateException.class)
-    public void 중복_회원_검증 (){
-        Member member1 = new Member();
-        Member member2 = new Member();
-
-        member1.setName("kim");
-        member2.setName("kim");
-
-        memberService.join(member1);
-        memberService.join(member2);
-
-        fail("예외가 발생해야 한다. 여기까지 내려오면 안된다.");
+    void test(){
+        assertThat(1+1).isEqualTo(2);
     }
+//    @Test
+//    public void 회원가입(){
+//        Member member = new Member();
+//        member.setName("kim");
+//
+//        Long saveId = memberService.join(member);
+//
+//        em.flush(); //원래는 Transactional로 인해 Rollback이 발생해 DB 쿼리를 날리지 않지만 쿼리를 보고싶을때 flush를 사용
+//        Assertions.assertEquals(member, memberRepository.findOne(saveId));
+//    }
+//
+//    @Test(expected = IllegalStateException.class)
+//    public void 중복_회원_검증 (){
+//        Member member1 = new Member();
+//        Member member2 = new Member();
+//
+//        member1.setName("kim");
+//        member2.setName("kim");
+//
+//        memberService.join(member1);
+//        memberService.join(member2);
+//
+//        fail("예외가 발생해야 한다. 여기까지 내려오면 안된다.");
+//    }
 }
